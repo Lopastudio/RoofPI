@@ -1,12 +1,13 @@
 import React from 'react';
+import "./Settings.css"
 
-function Template() {
+function Settings() {
   
   return (
-    <div>
-      
+    <div class="Appenos">
+      <h1>Settings</h1>
     </div>
   );
 }
 
-export default Template;
+export default Settings;

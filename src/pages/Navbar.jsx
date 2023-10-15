@@ -12,6 +12,7 @@ function Navbaros() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
                             <Nav.Link href="/">Home</Nav.Link>
+                            <Nav.Link href="/automations">Automations</Nav.Link>
                             <Nav.Link href="/manualctrls">Manual Controls</Nav.Link>
                             <Nav.Link href="/settings">Settings</Nav.Link>
                             <Nav.Link href="/About">About</Nav.Link>
