@@ -35,21 +35,43 @@ function Settings() {
 
   const handleInputChange = (e, settingName, valueType) => {
     if (valueType === 'checkbox') {
-      settingName(e.target.checked);
+      settingName(prevState => ({
+        ...prevState,
+        enabled: e.target.checked
+      }));
     } else {
-      settingName(e.target.value);
+      const newValue = e.target.value === '' ? 0 : parseInt(e.target.value, 10);
+      settingName(prevState => ({
+        ...prevState,
+        value: newValue
+      }));
     }
   };
+  
 
   const handleApply = async () => {
     try {
-      await axios.put('http://localhost:3010/settings', {
-        fanStartTemp,
-        fanStopTemp,
-        fanStartHumidity,
-        fanStopHumidity,
-        refreshInterval,
-      });
+      const formattedData = {
+        fanStartTemp: {
+          enabled: fanStartTemp.enabled,
+          value: fanStartTemp.value ? fanStartTemp.value.toString() : "0" // Check if value exists
+        },
+        fanStopTemp: {
+          enabled: fanStopTemp.enabled,
+          value: fanStopTemp.value ? fanStopTemp.value.toString() : "0" // Check if value exists
+        },
+        fanStartHumidity: {
+          enabled: fanStartHumidity.enabled,
+          value: fanStartHumidity.value ? fanStartHumidity.value.toString() : "0" // Check if value exists
+        },
+        fanStopHumidity: {
+          enabled: fanStopHumidity.enabled,
+          value: fanStopHumidity.value ? fanStopHumidity.value.toString() : "0" // Check if value exists
+        },
+        refreshInterval: refreshInterval.toString() // Convert to string
+      };
+
+      await axios.put('http://localhost:3010/settings', formattedData);
       alert('Settings updated successfully');
     } catch (error) {
       console.error('Error updating settings', error);
@@ -72,9 +94,9 @@ function Settings() {
               onChange={(e) => handleInputChange(e, setFanStartTemp, 'checkbox')}
             />
             <input
-              type="number"
+              type="text"
               value={fanStartTemp.value}
-              disabled={!fanStartTemp.enabled}
+              disabled={!fanStartTemp.enabled || fanStartTemp.value === null}
               onChange={(e) => handleInputChange(e, setFanStartTemp, 'value')}
             />
           </div>
@@ -86,37 +108,37 @@ function Settings() {
               onChange={(e) => handleInputChange(e, setFanStopTemp, 'checkbox')}
             />
             <input
-              type="number"
+              type="text"
               value={fanStopTemp.value}
-              disabled={!fanStopTemp.enabled}
+              disabled={!fanStopTemp.enabled || fanStopTemp.value === null}
               onChange={(e) => handleInputChange(e, setFanStopTemp, 'value')}
             />
           </div>
           <div>
-            Fan start humidity:
+            Fan start humidity (Work In Progress!):
             <input
               type="checkbox"
               checked={fanStartHumidity.enabled}
               onChange={(e) => handleInputChange(e, setFanStartHumidity, 'checkbox')}
             />
             <input
-              type="number"
+              type="text"
               value={fanStartHumidity.value}
-              disabled={!fanStartHumidity.enabled}
+              disabled={!fanStartHumidity.enabled || fanStartHumidity.value === null}
               onChange={(e) => handleInputChange(e, setFanStartHumidity, 'value')}
             />
           </div>
           <div>
-            Fan stop humidity:
+            Fan stop humidity  (Work In Progress!):
             <input
               type="checkbox"
               checked={fanStopHumidity.enabled}
               onChange={(e) => handleInputChange(e, setFanStopHumidity, 'checkbox')}
             />
             <input
-              type="number"
+              type="text"
               value={fanStopHumidity.value}
-              disabled={!fanStopHumidity.enabled}
+              disabled={!fanStopHumidity.enabled || fanStopHumidity.value === null}
               onChange={(e) => handleInputChange(e, setFanStopHumidity, 'value')}
             />
           </div>
@@ -126,7 +148,7 @@ function Settings() {
           <div>
             Refresh interval:
             <input
-              type="number"
+              type="text"
               value={refreshInterval}
               onChange={(e) => setRefreshInterval(e.target.value)}
             />

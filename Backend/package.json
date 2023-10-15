@@ -1,19 +1,19 @@
 {
   "name": "roofpi-backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Backend for the RoofPI system",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Testing 123\" && exit 1",
     "start": "node index.js"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Patrick - Lopastudio",
+  "license": "GPL-3",
   "dependencies": {
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "node-dht-sensor": "^0.4.3",
-    "onoff": "^6.0.3"
+    "onoff": "^6.0.3",
+    "ssh2": "^1.14.0"
   }
 }

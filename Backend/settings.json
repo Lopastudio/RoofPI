@@ -1,1 +1,1 @@
-{"fanStartTemp":true,"fanStopTemp":{"enabled":false,"value":0},"fanStartHumidity":{"enabled":false,"value":0},"fanStopHumidity":{"enabled":false,"value":0},"refreshInterval":"4000"}
+{"fanStartTemp":{"enabled":true,"value":"29"},"fanStopTemp":{"enabled":true,"value":"28"},"fanStartHumidity":{"enabled":false,"value":"70"},"fanStopHumidity":{"enabled":false,"value":"0"},"refreshInterval":"4000"}

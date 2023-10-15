@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Settings from "./pages/Settings";
 import ManualControls from "./pages/ManualControls";
 import Automations from "./pages/Automations";
+import Shell from "./pages/Shell";
 import NoPage from "./pages/NoPage";
 
 
@@ -17,6 +18,7 @@ export default function App() {
           <Route index element={<Home />} />
           <Route path="manualctrls" element={<ManualControls />} />
           <Route path="automations" element={<Automations />} />
+          <Route path="shell" element={<Shell />} />
           <Route path="settings" element={<Settings />} />
           <Route path="*" element={<NoPage />} />
         </Route>

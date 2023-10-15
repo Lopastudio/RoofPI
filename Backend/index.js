@@ -5,6 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const dhtsensor = require('node-dht-sensor');
 const fs = require('fs');
+const { Client } = require('ssh2');
 
 const settingsPath = './settings.json';
 
@@ -47,7 +48,7 @@ app.get('/cputemp', (req, res) => {
 });
 
 app.get('/tempsensor', (req, res) => {
-    dhtsensor.read(11, 17, function(err, temperature, humidity) {
+    dhtsensor.read(11, 17, function (err, temperature, humidity) {
         if (!err) {
             res.json({ temperature, humidity });
         } else {
@@ -140,6 +141,84 @@ app.delete('/settings', (req, res) => {
         }
     });
 });
+
+app.post('/ssh', (req, res) => {
+    const { host, port, username, password, command } = req.body;
+  
+    const sshCommand = `sshpass -p ${password} ssh -p ${port} ${username}@${host} ${command}`;
+  
+    exec(sshCommand, (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error: ${error}`);
+        res.status(500).send('Internal Server Error');
+        return;
+      }
+      res.send(stdout);
+    });
+  });
+
+
+
+
+
+const checkTemperatureAndControlFan = () => {
+    dhtsensor.read(11, 17, function (err, temperature, humidity) {
+        if (!err) {
+            fs.readFile(settingsPath, 'utf8', (err, data) => {
+                if (err) {
+                    console.error(`Error reading settings file: ${err}`);
+                    return;
+                }
+
+                const settings = JSON.parse(data);
+                if (settings.hasOwnProperty('fanStartTemp') && settings.hasOwnProperty('fanStopTemp')) {
+                    const fanStartTempSetting = settings.fanStartTemp;
+                    const fanStopTempSetting = settings.fanStopTemp;
+                    const fanStartHumSetting = settings.fanStartHumidity;
+                    const fanStopHumSetting = settings.fanStopHumidity;
+
+
+                    if (fanStartTempSetting.enabled && temperature >= fanStartTempSetting.value && !fanstatus) {
+                        startFan();
+                        fanstatus = true;
+                    } else if (fanStopTempSetting.enabled && temperature <= fanStopTempSetting.value && fanstatus) {
+                        stopFan();
+                        fanstatus = false;
+                    }
+
+                    if (fanStartHumSetting.enabled && humidity >= fanStartHumSetting.value && !fanstatus) {
+                        startFan();
+                        fanstatus = true;
+                    } else if (fanStopHumSetting.enabled && humidity <= fanStopHumSetting.value && fanstatus) {
+                        stopFan();
+                        fanstatus = false;
+                    }
+                }
+            });
+        } else {
+            console.error(`Error: ${err}`);
+        }
+    });
+};
+
+// Check temperature and control fan every 5 seconds
+setInterval(checkTemperatureAndControlFan, 5000);
+
+const pin = new Gpio(4, 'out');
+const startFan = () => {
+    pin.writeSync(1);
+    fanstatus = true;
+};
+
+const stopFan = () => {
+    pin.writeSync(0);
+    fanstatus = false;
+};
+
+
+
+
+
 
 app.listen(port, () => {
     console.log(`App launched, running on port: ${port}`);
