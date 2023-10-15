@@ -7,7 +7,16 @@ function Navbaros() {
         <div>
             <Navbar bg="dark" variant="dark" expand="lg">
                 <Container>
-                    <Navbar.Brand href="#home">RoofPi</Navbar.Brand>
+                    <Navbar.Brand href="">
+                        <img
+                            src="/LogoRoofPi.png" // Change this to the path of your image
+                            width="30"
+                            height="30"
+                            className="d-inline-block align-top"
+                            alt="RoofPi logo"
+                        />
+                        RoofPi
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">

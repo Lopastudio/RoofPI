@@ -23,9 +23,9 @@ function Home() {
     }, [updateFrequency]);
 
     const fetchUpdateFrequency = () => {
-        axios.get('http://localhost:3010/settings/tempChangeInterval')
+        axios.get('http://localhost:3010/settings/refreshInterval')
             .then(response => {
-                setUpdateFrequency(response.data.tempChangeInterval);
+                setUpdateFrequency(response.data.refreshInterval);
             })
             .catch(error => {
                 console.error('Error fetching update frequency:', error);
