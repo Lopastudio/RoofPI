@@ -9,6 +9,8 @@ function Home() {
 
     useEffect(() => {
         fetchUpdateFrequency();
+        fetchSensorData();
+        fetchCPUTemp();
     }, []);
 
     useEffect(() => {
@@ -40,8 +42,6 @@ function Home() {
                 console.error('Error fetching CPU temperature:', error);
             });
     };
-    
-    
 
     const fetchSensorData = () => {
         axios.get('http://localhost:3010/tempsensor')
