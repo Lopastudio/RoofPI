@@ -22,6 +22,15 @@ This command downloads and runs the installation script, setting up RoofPI on yo
 
 Once installed, access the RoofPI control panel through a web browser using the appropriate IP address or hostname of your Raspberry Pi and the port 3000.
 
+
+## Uninstalling
+
+To uninstall RoofPI from your Raspberry Pi, you can use the following uninstaller script:
+
+```bash
+sudo bash -c "$(curl -s https://raw.githubusercontent.com/Lopastudio/RoofPI/main/uninstaller.sh?$(date +%s))"
+```
+
 ## Contributing
 
 Contributions are welcome! If you find a bug or have a feature request, please [open an issue](https://github.com/Lopastudio/RoofPI/issues).
