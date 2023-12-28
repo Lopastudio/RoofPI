@@ -2,6 +2,8 @@
 
 clear
 
+
+
 # Colour initialization
 F_BOLD="\033[1m"
 C_GREEN="\033[38;5;2m"
@@ -23,14 +25,8 @@ printf "${F_BOLD}${C_OLIVE}RoofPi Easy installer${NO_FORMAT}\n\n"
 printf "${F_BOLD}${C_DARKVIOLET}Written with ${C_MAROON}❤️${C_DARKVIOLET} by Patrik Nagy (lopastudio.sk / https://github.com/Lopastudio)${NO_FORMAT}\n"
 printf "${F_BOLD}${C_DARKBLUE}Copyright (c) 2023${NO_FORMAT}\n\n\n"
 
-# Check if the input is coming from a terminal
-if [ -t 0 ]; then
-    printf "Do you want to start the installation? (Y/N): "
-    read installYN
-else
-    # If not a terminal, assume Yes for installation
-    installYN="Y"
-fi
+printf "Do you want to start the installation? (Y/N): "
+read installYN
 
 if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     printf "${F_BOLD}${C_OLIVE}Installation started${NO_FORMAT}\n${NO_FORMAT}"
