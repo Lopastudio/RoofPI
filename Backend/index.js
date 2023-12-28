@@ -1,6 +1,6 @@
 const express = require('express');
 const { exec } = require('child_process');
-//     const Gpio = require('onoff').Gpio;
+const Gpio = require('onoff').Gpio;
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const dhtsensor = require('node-dht-sensor');
@@ -60,14 +60,14 @@ app.get('/tempsensor', (req, res) => {
 
 app.post("/fanctrl", (req, res) => {
     const { action } = req.body;
-    //const pin = new Gpio(4, 'out');
+    const pin = new Gpio(4, 'out');
 
     if (action === 'true') {
-        //pin.writeSync(1);
+        pin.writeSync(1);
         res.send('Fan on');
         fanstatus = true;
     } else if (action === 'false') {
-        //pin.writeSync(0);
+        pin.writeSync(0);
         res.send('Fan off');
         fanstatus = false;
     } else {
@@ -204,14 +204,14 @@ const checkTemperatureAndControlFan = () => {
 // Check temperature and control fan every 5 seconds
 setInterval(checkTemperatureAndControlFan, 5000);
 
-//const pin = new Gpio(4, 'out');
+const pin = new Gpio(4, 'out');
 const startFan = () => {
- //   pin.writeSync(1);
+    pin.writeSync(1);
     fanstatus = true;
 };
 
 const stopFan = () => {
-  //  pin.writeSync(0);
+    pin.writeSync(0);
     fanstatus = false;
 };
 
