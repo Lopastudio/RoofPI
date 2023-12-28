@@ -52,6 +52,7 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     # End of commenting. I am lazy :/
 
     install_directory="/var/www/roofpi/"
+    install_directory_backend="/var/www/roofpi/backend/"
 
     if [ -d "$install_directory" ]; then
         printf "\n\n\n${F_BOLD}${C_RED}Directory /var/www/roofpi/ already exists.${NO_FORMAT}\n"
@@ -88,7 +89,11 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     printf "\n\n\n${F_BOLD}${C_GREEN}chmod +x kill.sh\n${NO_FORMAT}"
     chmod +x kill.sh
 
+    printf "\n\n\n${F_BOLD}${C_GREEN}cd /var/www/roofpi/\n${NO_FORMAT}"
+    cd "$install_directory_backend"
 
+    printf "\n\n\n${F_BOLD}${C_GREEN}npm install\n${NO_FORMAT}"
+    npm install
 
     printf "\n\n\n${F_BOLD}${C_GREEN}Creating systemd service file...\n${NO_FORMAT}"
 
@@ -99,7 +104,7 @@ Description=RoofPi Service
 After=network.target
 
 [Service]
-ExecStart=./start.sh
+ExecStart=/var/www/roofpi/start.sh
 WorkingDirectory=/var/www/roofpi/
 Restart=always
 User=root
