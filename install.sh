@@ -76,8 +76,8 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     printf "\n\n\n${F_BOLD}${C_GREEN}cd /var/www/roofpi/\n${NO_FORMAT}"
     cd "$install_directory"
 
-    printf "\n\n\n${F_BOLD}${C_GREEN}npm install\n${NO_FORMAT}"
-    npm install
+    printf "\n\n\n${F_BOLD}${C_GREEN}npm install -g serve\n${NO_FORMAT}"
+    npm install -g serve
 
     # If you really want, you can enable it, but it is not necessary
     #printf "\n\n\n${F_BOLD}${C_GREEN}npm audit fix --force\n${NO_FORMAT}"
@@ -105,7 +105,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/var/www/roofpi/
-ExecStart=/var/www/roofpi/start.sh >> /var/www/roofpi/logs/start.log 2>&1
+ExecStart=serve -s build >> /var/www/roofpi/logs/start.log 2>&1
 Restart=always
 User=root
 StartLimitIntervalSec=5min
