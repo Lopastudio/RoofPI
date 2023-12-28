@@ -89,7 +89,7 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     printf "\n\n\n${F_BOLD}${C_GREEN}chmod +x kill.sh\n${NO_FORMAT}"
     chmod +x kill.sh
 
-    printf "\n\n\n${F_BOLD}${C_GREEN}cd /var/www/roofpi/\n${NO_FORMAT}"
+    printf "\n\n\n${F_BOLD}${C_GREEN}cd /var/www/roofpi/Backend\n${NO_FORMAT}"
     cd "$install_directory_backend"
 
     printf "\n\n\n${F_BOLD}${C_GREEN}npm install\n${NO_FORMAT}"
