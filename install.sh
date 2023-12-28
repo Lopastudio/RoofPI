@@ -101,7 +101,20 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     rm /etc/systemd/system/roofpi.service
 
     # Create systemd service file with 'EOF' delimiter
-    cat <<EOF >/etc/systemd/systelocal_ip_address=$(ip a | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+    cat <<EOF >/etc/systemd/system/roofpi.service
+[Unit]
+Description=RoofPi Backend Service
+After=network.target
+
+[Service]
+WorkingDirectory=/var/www/roofpi/
+ExecStart=serve -s build
+Restart=always
+User=root
+StartLimitIntervalSec=5min
+StartLimitBurst=10
+
+[Install]
 WantedBy=multi-user.target
 EOF
 
