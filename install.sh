@@ -104,10 +104,12 @@ Description=RoofPi Service
 After=network.target
 
 [Service]
-ExecStart=/var/www/roofpi/start.sh
 WorkingDirectory=/var/www/roofpi/
+ExecStart=/var/www/roofpi/start.sh >> /var/www/roofpi/logs/start.log 2>&1
 Restart=always
 User=root
+StartLimitIntervalSec=5min
+StartLimitBurst=10
 
 [Install]
 WantedBy=multi-user.target
