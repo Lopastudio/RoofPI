@@ -96,6 +96,7 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     npm install
 
     printf "\n\n\n${F_BOLD}${C_GREEN}Creating systemd service file...\n${NO_FORMAT}"
+    rm /etc/systemd/system/roofpi.service
 
     # Create systemd service file with 'EOF' delimiter
     cat <<EOF >/etc/systemd/system/roofpi.service
