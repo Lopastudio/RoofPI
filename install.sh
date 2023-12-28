@@ -52,7 +52,7 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     # End of commenting. I am lazy :/
 
     install_directory="/var/www/roofpi/"
-    install_directory_backend="/var/www/roofpi/backend/"
+    install_directory_backend="/var/www/roofpi/Backend/"
 
     if [ -d "$install_directory" ]; then
         printf "\n\n\n${F_BOLD}${C_RED}Directory /var/www/roofpi/ already exists.${NO_FORMAT}\n"
