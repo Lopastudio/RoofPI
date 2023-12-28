@@ -14,6 +14,8 @@ C_DARKBLUE="\033[38;5;18m"
 C_MAROON="\033[38;5;1m"
 NO_FORMAT="\033[0m"
 
+ip_address=$(ip a | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+
 # Check if the script is run with sudo
 if [ "$EUID" -ne 0 ]; then
     printf "${F_BOLD}${C_RED}Installation aborted == ERROR OCCURRED!\n${NO_FORMAT}"
@@ -32,7 +34,7 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     printf "${F_BOLD}${C_OLIVE}Installation started${NO_FORMAT}\n${NO_FORMAT}"
 
     printf "\n\n\n${F_BOLD}${C_GREEN}apt update && apt upgrade\n${NO_FORMAT}"
-    apt-get update && apt upgrade # Update the machime (Raspberry Pi)
+    apt-get update && apt upgrade -y # Update the machime (Raspberry Pi)
 
     printf "\n\n\n${F_BOLD}${C_GREEN}apt install tmux -y\n${NO_FORMAT}"
     apt install tmux -y # Install Tmux for running in background
@@ -99,14 +101,22 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     rm /etc/systemd/system/roofpi.service
 
     # Create systemd service file with 'EOF' delimiter
-    cat <<EOF >/etc/systemd/system/roofpi.service
+    cat <<EOF >/etc/systemd/systelocal_ip_address=$(ip a | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1')
+WantedBy=multi-user.target
+EOF
+
+    printf "\n\n\n${F_BOLD}${C_GREEN}Creating systemd service file for backend...\n${NO_FORMAT}"
+    rm /etc/systemd/system/roofpi_backend.service
+
+    # Create systemd service file with 'EOF' delimiter
+    cat <<EOF >/etc/systemd/system/roofpi_backend.service
 [Unit]
-Description=RoofPi Service
+Description=RoofPi Backend Service
 After=network.target
 
 [Service]
-WorkingDirectory=/var/www/roofpi/
-ExecStart=serve -s build
+WorkingDirectory=/var/www/roofpi/Backend
+ExecStart=npm start
 Restart=always
 User=root
 StartLimitIntervalSec=5min
@@ -122,7 +132,11 @@ EOF
     systemctl enable roofpi.service
     systemctl start roofpi.service
 
+    systemctl enable roofpi_backend.service
+    systemctl start roofpi_backend.service
+
     printf "\n\n\n${F_BOLD}${C_GREEN}Installation completed successfully.${NO_FORMAT}\n"
+    printf "${C_GREEN}You should be able to access the webpanel on webaddress: $ip_address:3000 \n\n"
 else
     printf "${C_RED}Installation aborted.${NO_FORMAT}\n"
 fi
