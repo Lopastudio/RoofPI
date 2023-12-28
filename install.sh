@@ -82,6 +82,14 @@ if [ "$installYN" = "Y" ] || [ "$installYN" = "y" ]; then
     #printf "\n\n\n${F_BOLD}${C_GREEN}npm audit fix --force\n${NO_FORMAT}"
     #npm audit fix --force
 
+    printf "\n\n\n${F_BOLD}${C_GREEN}chmod +x start.sh\n${NO_FORMAT}"
+    chmod +x start.sh
+
+    printf "\n\n\n${F_BOLD}${C_GREEN}chmod +x kill.sh\n${NO_FORMAT}"
+    chmod +x kill.sh
+
+
+
     printf "\n\n\n${F_BOLD}${C_GREEN}Creating systemd service file...\n${NO_FORMAT}"
 
     # Create systemd service file with 'EOF' delimiter
@@ -91,7 +99,7 @@ Description=RoofPi Service
 After=network.target
 
 [Service]
-ExecStart=tmux new-session -d -s RoofPI 'npm run start' \; split-window -h 'cd Backend && npm run start'
+ExecStart=./start.sh
 WorkingDirectory=/var/www/roofpi/
 Restart=always
 User=root

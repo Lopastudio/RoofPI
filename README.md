@@ -2,4 +2,4 @@
 
 
 Easy installer:
-wget -O - https://raw.githubusercontent.com/Lopastudio/RoofPI/main/install.sh | sudo bash
+bash <(curl -s https://raw.githubusercontent.com/Lopastudio/RoofPI/main/install.sh)
