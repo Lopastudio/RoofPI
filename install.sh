@@ -105,7 +105,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/var/www/roofpi/
-ExecStart=serve -s build >> /var/www/roofpi/logs/start.log 2>&1
+ExecStart=serve -s build
 Restart=always
 User=root
 StartLimitIntervalSec=5min
